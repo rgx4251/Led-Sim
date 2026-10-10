@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LED Simulation</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="led.css">
+</head>
+<body>
+<div class="wrap">
+  <section class="top">
+    <div class="intro">
+      <h1>LED <br><span>SIMULATION</span></h1>
+      <p>Explore forward bias, electron-hole recombination and light emission.</p>
+    </div>
+    <div class="led-box">
+      <svg id="led" viewBox="0 0 300 300" aria-label="LED with electrons and holes recombining at the junction">
+        <defs><radialGradient id="glow"><stop offset="0" stop-color="var(--c,#3b6bff)" stop-opacity=".9"/><stop offset="1" stop-color="var(--c,#3b6bff)" stop-opacity="0"/></radialGradient></defs>
+        <circle id="halo" cx="150" cy="170" r="120" fill="url(#glow)" opacity="0"/>
+        <path d="M125 20 L135 120 M175 20 L165 120" stroke="#9a98a8" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <rect x="100" y="110" width="100" height="160" rx="50" fill="rgba(180,190,210,.18)" stroke="#aeb0c4" stroke-width="3"/>
+        <rect id="pside" x="122" y="150" width="56" height="35" fill="#f3b6c4" opacity=".75"/>
+        <rect id="nside" x="122" y="185" width="56" height="35" fill="#9cc4f5" opacity=".75"/>
+        <text x="110" y="173" font-size="13" fill="var(--mute)" text-anchor="end" font-weight="700">P</text>
+        <text x="110" y="208" font-size="13" fill="var(--mute)" text-anchor="end" font-weight="700">N</text>
+        <line x1="122" y1="185" x2="178" y2="185" stroke="var(--pri)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <g id="parts"></g>
+      </svg>
+      <div style="max-width:300px;margin:0 auto">
+        <div class="row"><span>Brightness</span><b id="bv">0%</b></div>
+        <input type="range" id="bright" min="0" max="100" value="0" disabled aria-label="Brightness (calculated from current)">
+      </div>
+    </div>
+    <div class="chart">
+      <svg id="iv" viewBox="0 0 440 300" role="img" aria-label="Current versus voltage curve"></svg>
+    </div>
+  </section>
+
+  <section class="panels">
+    <div class="card">
+      <h2>INPUT</h2>
+      <div class="row"><span>Resistance</span><b id="rv">220 Ω</b></div>
+      <input type="range" id="res" min="10" max="1000" step="10" value="220">
+      <div class="row"><span>Applied Voltage</span><b id="vv">3.5 V</b></div>
+      <input type="range" id="vol" min="0" max="12" step="0.1" value="3.5">
+      <div class="ledtype"><span>LED TYPE</span>
+        <select id="type" aria-label="LED type">
+          <option value="Red|1.8|#ff3b3b">Red (V<sub>f</sub> = 1.8 V)</option>
+          <option value="Green|2.2|#2fd47a">Green (V<sub>f</sub> = 2.2 V)</option>
+          <option value="Blue|3.3|#3b6bff" selected>Blue (V<sub>f</sub> = 3.3 V)</option>
+          <option value="White|3.0|#e8ecff">White (V<sub>f</sub> = 3.0 V)</option>
+        </select></div>
+    </div>
+    <div class="card">
+      <h2>TABLE</h2>
+      <div class="tbl"><div class="scroll">
+        <table><thead><tr><th>Applied Voltage (V)</th><th>Current (mA)</th><th>Brightness (%)</th></tr></thead><tbody id="rows"></tbody></table>
+        <div class="empty" id="empty">No data yet. Press Record to add a reading.</div>
+      </div></div>
+      <div class="btns"><button class="go" id="rec">Record reading</button><button class="ghost" id="clr">Clear table</button></div>
+    </div>
+    <div class="card">
+      <h2>OUTPUT</h2>
+      <div class="out"><div class="ic">Ω</div><span class="k">Resistance</span><span class="v" id="o1">–</span></div>
+      <div class="out"><div class="ic">V</div><span class="k">Applied voltage</span><span class="v" id="o2">–</span></div>
+      <div class="out"><div class="ic">LED</div><span class="k">LED Type</span><span class="v" id="o3">–</span></div>
+      <div class="out"><div class="ic">mA</div><span class="k">Current</span><span class="v" id="o4">–</span></div>
+      <div class="out"><div class="ic">W</div><span class="k">Power</span><span class="v" id="o5">–</span></div>
+      <div id="warn"></div>
+    </div>
+  </section>
+</div>
+<script src="led.js"></script>
+</body>
+</html>
