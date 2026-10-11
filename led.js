@@ -27,7 +27,7 @@ function calcCurrentMA(volts, vf = forwardVoltage) {
 function getAnchor() {
   return graphPoints.length
     ? graphPoints[graphPoints.length - 1]
-    : { v: 0, i: 0 };
+    : { v: chartForwardVoltage, i: 0 };
 }
 
 function graphCurrentAt(volts, vf = chartForwardVoltage) {
@@ -121,7 +121,7 @@ function drawIV() {
   const anchor = getAnchor();
 
   if (graphPoints.length) {
-    let recordedPath = 'M' + xPos(0).toFixed(1) + ' ' + yPos(0).toFixed(1);
+    let recordedPath = 'M' + xPos(chartForwardVoltage).toFixed(1) + ' ' + yPos(0).toFixed(1);
     graphPoints.forEach(point => {
       recordedPath += 'L' + xPos(point.v).toFixed(1) + ' ' + yPos(point.i).toFixed(1);
     });
